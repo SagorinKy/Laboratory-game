@@ -8,28 +8,28 @@ AFLAGS = rsv
 CXX = g++
 CXXFLAGS = -I. -std=c++17 -Werror -Wpedantic -Wall -g -fPIC
 
-LDXXFLAGS = $(CXXFLAGS) -L. -l:$(LIBPROJECT)
-LDGTEESTFLAGS = $(CXXFLAGS) -lgtest -lgtest_main -lpthread
+LDXXFLAGS = $(CXXFLAGS) -L. -l$(LIBPROJECT)
+LDGTESTFLAGS = $(CXXFLAGS) -lgtest -lgtest_main -lpthread
 
 DEPS = $(wildcard *.h)
 SOURSES = $(wildcard *.cpp)
-OBJ = $(SOURSES .cpp = .o)
+OBJ = $(SOURSES: .cpp=.o)
 
 TEST_SOURSES = $(wildcard tests/*.cpp)
-TEST_OBJ = $(TEST_SOURSES .cpp = .o)
+TEST_OBJ = $(TEST_SOURSES:.cpp=.o)
 
 .PHONY: default run test
 
-defalt: run test
+default: run test
 
 %.o: %.cpp $(DEPS)
 	$(CXX) $(CXXFLAGS) -c -o $@ $<
 
-$(TEST_SOURSES)%.o: $(TEST_SOURSES)%.cpp $(DEPS)
-	$(CXX) $(CXXFLAGS) -c -o $@ $-
+tests/%.o: tests/%.cpp $(DEPS)
+	$(CXX) $(CXXFLAGS) -c -o $@ $<
 
 
-$(LIBPROJECT): $(OBJ) $(TEST_OBJ)
+$(LIBPROJECT): $(OBJ) 
 	$(AR) $(AFLAGS) $@ $^
 
 
@@ -42,7 +42,7 @@ run: $(PROJECT)
 
 test: $(LIBPROJECT) $(TEST_OBJ)
 	$(CXX) -o runTest $(TEST_OBJ) $(LDGTESTFLAGS)
-
+	./runTest
 
 clean:
 	rm -f *.o
