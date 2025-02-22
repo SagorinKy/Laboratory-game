@@ -8,17 +8,17 @@ AFLAGS = rsv
 CXX = g++
 CXXFLAGS = -I. -std=c++17 -Werror -Wpedantic -Wall -g -fPIC
 
-LDXXFLAGS = $(CXXFLAGS) -L. -l$(LIBPROJECT)
+LDXXFLAGS = $(CXXFLAGS) -L. -l$(PROJECT)
 LDGTESTFLAGS = $(CXXFLAGS) -lgtest -lgtest_main -lpthread
 
 DEPS = $(wildcard *.h)
 SOURSES = $(wildcard *.cpp)
-OBJ = $(SOURSES: .cpp=.o)
+OBJ = $(SOURSES:.cpp=.o)
 
 TEST_SOURSES = $(wildcard tests/*.cpp)
 TEST_OBJ = $(TEST_SOURSES:.cpp=.o)
 
-.PHONY: default run test
+.PHONY: default run test clean
 
 default: run test
 
@@ -34,14 +34,15 @@ $(LIBPROJECT): $(OBJ)
 
 
 
-$(PROJECT): main.o $(LIBPROJECT)
-	$(CXX) -o $@ main.o $(CXXFLAGS)
+$(PROJECT): $(OBJ) $(LIBPROJECT)
+	$(CXX) -o $@ $(OBJ) $(CXXFLAGS)
 
 
 run: $(PROJECT)
+	./$(PROJECT)
 
-test: $(LIBPROJECT) $(TEST_OBJ)
-	$(CXX) -o runTest $(TEST_OBJ) $(LDGTESTFLAGS)
+test: $(TEST_OBJ) $(LIBPROJECT) 
+	$(CXX) $(TEST_OBJ) -o runTest $(LDGTESTFLAGS) -L. -lmyGame
 	./runTest
 
 clean:
