@@ -20,7 +20,7 @@ TEST_OBJECTS = $(TEST_SOURCES:.cpp=.o)
 
 .PHONY: default run test clean
 
-default: run
+default: $(PROJECT)
 
 %.o: %.cpp
 	$(CXX) $(CXXFLAGS) -c -o $@ $<
