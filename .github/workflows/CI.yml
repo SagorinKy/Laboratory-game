@@ -4,7 +4,7 @@ name: C++ CI
 on:
   push:
     branches:
-      - working-branch
+      - generalization
   pull_request:
     branches:
       - master
