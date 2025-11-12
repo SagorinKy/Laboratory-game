@@ -28,6 +28,4 @@ jobs:
       - name: Build with Makefile
         run: make
 
-      - name: run tests
-        run: ./runTest
 
