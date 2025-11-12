@@ -1,0 +1,33 @@
+# Project settings
+PROJECT_NAME           = "My Game Project"
+PROJECT_BRIEF          = "A turn-based battle game"
+PROJECT_LOGO           = ""
+OUTPUT_DIRECTORY       = "docs"           # Папка, в которую будет генерироваться документация
+CREATE_SUBDIRS         = NO               # Отключаем создание подпапок для ускорения
+EXTRACT_ALL            = YES              # Извлекает все элементы, даже если нет комментариев
+FILE_PATTERNS          = *.cpp *.h        # Разрешенные расширения для исходных файлов
+RECURSIVE              = YES              # Осуществляет поиск рекурсивно
+GENERATE_LATEX         = NO               # Отключаем создание PDF с помощью LaTeX
+GENERATE_HTML          = YES              # Создаёт HTML-страницы для документации
+
+# Comment settings
+JAVADOC_AUTOBRIEF      = YES              # Автоматически добавлять краткое описание для методов
+EXTRACT_PRIVATE        = YES              # Извлекает приватные члены
+EXTRACT_STATIC         = YES              # Извлекает статические методы и переменные
+
+# Template settings
+GENERATE_TREEVIEW      = NO               # Отключаем отображение структуры проекта в виде дерева
+
+# Graph settings (Disabled to speed up processing)
+CLASS_GRAPH            = NO               # Отключаем граф классов
+COLLABORATION_GRAPH    = NO               # Отключаем граф сотрудничества
+INCLUDE_GRAPH          = NO               # Отключаем граф включений
+INCLUDED_BY_GRAPH      = NO               # Отключаем граф включений
+CALL_GRAPH             = NO               # Отключаем граф вызовов функций
+CALLER_GRAPH           = NO               # Отключаем граф вызывающих функций
+DOT_MULTI_TARGETS      = NO               # Отключаем поддержку множественных целей для DOT
+DOT_CLEANUP            = YES              # Очищаем временные файлы Graphviz после генерации
+
+# Misc settings
+SORT_MEMBER_DOCS       = NO               # Отключаем сортировку членов
+SORT_BRIEF_DOCS        = NO               # Отключаем сортировку описаний

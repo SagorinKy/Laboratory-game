@@ -1,52 +1,43 @@
 PROJECT = myGame
-
 LIBPROJECT = lib$(PROJECT).a
 
 AR = ar
 AFLAGS = rsv
 
 CXX = g++
-CXXFLAGS = -I. -std=c++17 -Werror -Wpedantic -Wall -g -fPIC
-
+CXXFLAGS = -Iinclude -std=c++17 -Werror -Wpedantic -Wall -g -fPIC
 LDXXFLAGS = $(CXXFLAGS) -L. -l$(PROJECT)
 LDGTESTFLAGS = $(CXXFLAGS) -lgtest -lgtest_main -lpthread
 
-DEPS = $(wildcard *.h)
-SOURSES = $(wildcard *.cpp)
-OBJ = $(SOURSES:.cpp=.o)
+SRC_DIRS = src/characters src/consoleInterface src/effects src/fight src/menu
+INCLUDE_DIRS = include/characters include/consoleInterface include/effects include/fight include/menu
 
-TEST_SOURSES = $(wildcard tests/*.cpp)
-TEST_OBJ = $(TEST_SOURSES:.cpp=.o)
+SOURCES = $(foreach dir, $(SRC_DIRS), $(wildcard $(dir)/*.cpp)) main.cpp
+OBJECTS = $(SOURCES:.cpp=.o)
+
+TEST_SOURCES = $(wildcard tests/*.cpp)
+TEST_OBJECTS = $(TEST_SOURCES:.cpp=.o)
 
 .PHONY: default run test clean
 
-default: run test
+default: run
 
-%.o: %.cpp $(DEPS)
+%.o: %.cpp
 	$(CXX) $(CXXFLAGS) -c -o $@ $<
 
-tests/%.o: tests/%.cpp $(DEPS)
-	$(CXX) $(CXXFLAGS) -c -o $@ $<
-
-
-$(LIBPROJECT): $(OBJ) 
+$(LIBPROJECT): $(OBJECTS)
 	$(AR) $(AFLAGS) $@ $^
 
-
-
-$(PROJECT): $(OBJ) $(LIBPROJECT)
-	$(CXX) -o $@ $(OBJ) $(CXXFLAGS)
-
+$(PROJECT): $(OBJECTS) $(LIBPROJECT)
+	$(CXX) -o $@ $(OBJECTS) $(CXXFLAGS)
 
 run: $(PROJECT)
 	./$(PROJECT)
 
-test: $(TEST_OBJ) $(LIBPROJECT) 
-	$(CXX) $(TEST_OBJ) -o runTest $(LDGTESTFLAGS) -L. -lmyGame
+test: $(TEST_OBJECTS) $(LIBPROJECT)
+	$(CXX) $(TEST_OBJECTS) -o runTest $(LDGTESTFLAGS) -L. -lmyGame
 	./runTest
 
 clean:
-	rm -f *.o
-	rm -f $(PROJECT)
-	rm -f $(LIBPROJECT)
-	rm -f runTest
+	rm -f $(OBJECTS) $(TEST_OBJECTS)
+	rm -f $(PROJECT) $(LIBPROJECT) runTest

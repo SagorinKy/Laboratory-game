@@ -1,9 +1,12 @@
 #include <iostream>
 #include "test.h"
+#include "fight/gameManager.h"
 
 int main()
 {
-	std::cout<<"hello main \n";
+	GameManager* game = new GameManager(1);
+	game->chooseFighter();
+	game->runFight();
 
 	return 0;
 }
